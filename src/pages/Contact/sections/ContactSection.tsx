@@ -129,7 +129,7 @@ function ContactSection() {
               </p>
 
               <p className="text-white/80">
-                hello@aureastudio.com
+                estudioaurea332@gmail.com
               </p>
             </div>
 
