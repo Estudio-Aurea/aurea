@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #0a0a0a;
+  --color-surface: #111111;
+  --color-card: #1a1a1a;
+
+  --color-primary: #d4af37;
+  --color-primary-light: #f4d76a;
+
+  --color-text: #ffffff;
+  --color-text-muted: #9ca3af;
+}
+
+html,
+body,
+#root {
+  background-color: var(--color-background);
+  color: var(--color-text);
+  min-height: 100%;
+  margin: 0;
+}
