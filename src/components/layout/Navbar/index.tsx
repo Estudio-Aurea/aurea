@@ -13,7 +13,9 @@ const navLinks = [
 
 function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const location = useLocation();
+const [menuOpen, setMenuOpen] = useState(false);
+
+const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -129,8 +131,28 @@ function Navbar() {
             ))}
           </nav>
 
+          <div className="md:hidden">
+  <button
+    onClick={() => setMenuOpen(!menuOpen)}
+    className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white backdrop-blur-xl"
+  >
+    <motion.span
+      animate={{
+        rotate: menuOpen ? 90 : 0,
+      }}
+      transition={{
+        duration: 0.25,
+      }}
+      className="text-2xl leading-none"
+    >
+      {menuOpen ? "✕" : "☰"}
+    </motion.span>
+  </button>
+</div>
+
           {/* CTA */}
           <motion.div
+  className="hidden md:block"
   whileHover={{
     scale: 1.04,
     y: -2,
