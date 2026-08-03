@@ -24,7 +24,7 @@ function About() {
   description="At Aurea, we combine strategy, design and development to create premium websites that elevate brands and leave lasting impressions."
 />
 
-<WhoWeAre />
+{/* <WhoWeAre /> */}
 
 <Philosophy />
 
