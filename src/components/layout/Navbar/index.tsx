@@ -1,5 +1,5 @@
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import Logo from "../../../assets/images/Logo.png";
 
@@ -49,7 +49,7 @@ const location = useLocation();
       className="fixed left-0 right-0 top-5 z-50 flex justify-center px-4"
     >
       <div
-        className={`relative w-full max-w-7xl overflow-hidden rounded-[28px] transition-all duration-500
+        className={`relative w-full max-w-7xl overflow-visible rounded-[28px] transition-all duration-500
         ${
           scrolled
             ? "bg-black/65 backdrop-blur-[28px] border border-primary/25 shadow-[0_0_60px_rgba(201,168,103,0.12)]"
@@ -169,9 +169,88 @@ const location = useLocation();
     Inquire Now
   </Link>
 </motion.div>
+</div>
+
+{/* MOBILE MENU */}
+
+<AnimatePresence>
+  {menuOpen && (
+    <motion.div
+      initial={{ opacity: 0, y: -25 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -25 }}
+      transition={{ duration: 0.3 }}
+      className="
+        md:hidden
+        absolute
+        top-full
+        left-0
+        mt-4
+        w-full
+        overflow-hidden
+        rounded-[28px]
+        border
+        border-white/10
+        bg-black/80
+        backdrop-blur-3xl
+        shadow-[0_25px_80px_rgba(0,0,0,0.45)]
+      "
+    >
+      <nav className="flex flex-col py-6">
+
+        {navLinks.map((link) => (
+
+          <NavLink
+            key={link.path}
+            to={link.path}
+            onClick={() => setMenuOpen(false)}
+            className={({ isActive }) =>
+              `px-8 py-5 text-center text-sm uppercase tracking-[0.3em] transition ${
+                isActive
+                  ? "text-primary"
+                  : "text-white hover:text-primary"
+              }`
+            }
+          >
+            {link.name}
+          </NavLink>
+
+        ))}
+
+        <div className="px-6 pt-4">
+
+          <Link
+            to="/contact"
+            onClick={() => setMenuOpen(false)}
+            className="
+              block
+              rounded-xl
+              border
+              border-primary
+              bg-primary/10
+              px-6
+              py-4
+              text-center
+              uppercase
+              tracking-[0.2em]
+              text-primary
+              transition
+              hover:bg-primary
+              hover:text-black
+            "
+          >
+            Inquire Now
+          </Link>
+
         </div>
-      </div>
-    </motion.header>
+
+      </nav>
+    </motion.div>
+  )}
+</AnimatePresence>
+
+</div>
+</motion.header>
   );
 }
 

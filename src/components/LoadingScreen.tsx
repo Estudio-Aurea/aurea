@@ -40,7 +40,7 @@ function LoadingScreen({ isLoading }: LoadingScreenProps) {
 
             {/* Logo */}
 
-            <div className="flex overflow-hidden">
+            <div className="flex overflow-hidden px-6">
               {"ESTUDIO-AUREA".split("").map((letter, index) => (
                 <motion.span
                   key={index}
@@ -59,8 +59,8 @@ function LoadingScreen({ isLoading }: LoadingScreenProps) {
                   }}
                   style={{
                     fontFamily: "'Cormorant Garamond', serif",
-                    fontSize: "clamp(4rem,5.5vw,5.5rem)",
-                    letterSpacing: ".18em",
+                    fontSize: "clamp(2rem, 8vw, 5.5rem)",
+                    letterSpacing: "clamp(.06em, .4vw, .18em)",
                     color: "white",
                   }}
                 >
@@ -86,7 +86,7 @@ function LoadingScreen({ isLoading }: LoadingScreenProps) {
               style={{
                 originX: 0,
               }}
-              className="mt-8 h-px w-[230px] bg-primary"
+              className="mt-8 h-px w-40 sm:w-[230px] bg-primary"
             />
 
             {/* Tagline */}
@@ -104,7 +104,7 @@ function LoadingScreen({ isLoading }: LoadingScreenProps) {
                 delay: 0.9,
                 duration: 0.45,
               }}
-              className="mt-8 text-sm uppercase tracking-[0.35em] text-white/60"
+              className="mt-8 px-6 text-center text-xs sm:text-sm uppercase tracking-[0.2em] sm:tracking-[0.35em] text-white/60"
             >
               Crafting Digital Experiences
             </motion.p>
