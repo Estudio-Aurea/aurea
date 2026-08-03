@@ -63,8 +63,8 @@ const location = useLocation();
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/8 via-transparent to-transparent" />
 
         <div
-          className={`relative flex items-center justify-between px-8 transition-all duration-500 ${
-            scrolled ? "h-[72px]" : "h-20"
+          className={`relative flex items-center justify-between px-5 md:px-8 transition-all duration-500 ${
+            scrolled ? "h-[60px]" : "h-[68px]"
           }`}
         >
           {/* Logo */}
@@ -85,7 +85,7 @@ const location = useLocation();
   <motion.img
     src={Logo}
     alt="Aurea"
-    className="h-16 w-auto"
+    className="h-12 md:h-14 w-auto"
     whileHover={{
       scale: 1.05,
     }}
