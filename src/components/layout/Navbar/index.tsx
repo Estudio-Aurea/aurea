@@ -13,9 +13,9 @@ const navLinks = [
 
 function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
-const location = useLocation();
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,87 +27,134 @@ const location = useLocation();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location.pathname]);
+
   function handleNavClick(
     e: React.MouseEvent<HTMLAnchorElement>,
     path: string
   ) {
     if (location.pathname === path) {
       e.preventDefault();
-  
+
       window.scrollTo({
         top: 0,
         behavior: "smooth",
       });
     }
+
+    setMenuOpen(false);
   }
 
   return (
     <motion.header
-      initial={{ y: -40, opacity: 0 }}
+      initial={{ y: -35, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
-      className="fixed left-0 right-0 top-5 z-50 flex justify-center px-4"
+      transition={{
+        duration: 0.8,
+        ease: "easeOut",
+      }}
+      className="fixed inset-x-0 top-5 z-50 flex justify-center px-4 md:px-8"
     >
       <div
-        className={`relative w-full max-w-7xl overflow-visible rounded-[28px] transition-all duration-500
-        ${
-          scrolled
-            ? "bg-black/65 backdrop-blur-[28px] border border-primary/25 shadow-[0_0_60px_rgba(201,168,103,0.12)]"
-            : "bg-black/35 backdrop-blur-[24px] border border-white/15 shadow-[0_0_30px_rgba(255,255,255,0.04)]"
-        }`}
-      >
-        {/* Glass Highlight */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-white/20" />
+        className={`
+          relative
+          w-full
+          max-w-7xl
+          overflow-visible
+          rounded-[26px]
+          border
+          transition-all
+          duration-500
 
-        {/* Top Reflection */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/8 via-transparent to-transparent" />
+          ${
+            scrolled
+              ? "border-primary/20 bg-black/65 backdrop-blur-[30px] shadow-[0_18px_60px_rgba(0,0,0,0.45)]"
+              : "border-white/10 bg-black/40 backdrop-blur-[24px] shadow-[0_10px_40px_rgba(0,0,0,0.35)]"
+          }
+        `}
+      >
+        {/* Reflection */}
+
+        <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[26px]">
+          <div className="absolute inset-x-6 top-0 h-px rounded-full bg-white/15" />
+
+          <div className="absolute inset-0 rounded-[26px] bg-gradient-to-b from-white/[0.08] via-transparent to-transparent" />
+        </div>
 
         <div
-          className={`relative flex items-center justify-between px-5 md:px-8 transition-all duration-500 ${
-            scrolled ? "h-[60px]" : "h-[68px]"
-          }`}
+          className={`
+            relative
+            flex
+            items-center
+            justify-between
+            px-5
+            md:px-8
+            transition-all
+            duration-500
+
+            ${
+              scrolled
+                ? "h-[60px] md:h-[74px]"
+                : "h-[66px] md:h-[82px]"
+            }
+          `}
         >
           {/* Logo */}
+
           <Link
-  to="/"
-  className="flex items-center"
-  onClick={(e) => {
-    if (location.pathname === "/") {
-      e.preventDefault();
+            to="/"
+            className="flex items-center"
+            onClick={(e) => {
+              if (location.pathname === "/") {
+                e.preventDefault();
 
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
-    }
-  }}
->
-  <motion.img
-    src={Logo}
-    alt="Aurea"
-    className="h-12 md:h-14 w-auto"
-    whileHover={{
-      scale: 1.05,
-    }}
-    transition={{
-      duration: 0.25,
-    }}
-  />
-</Link>
+                window.scrollTo({
+                  top: 0,
+                  behavior: "smooth",
+                });
+              }
 
-          {/* Navigation */}
-          <nav className="hidden items-center gap-10 md:flex">
+              setMenuOpen(false);
+            }}
+          >
+            <motion.img
+              src={Logo}
+              alt="Aurea"
+              whileHover={{
+                scale: 1.04,
+              }}
+              transition={{
+                duration: 0.25,
+              }}
+              className="h-11 md:h-16 w-auto select-none"
+            />
+          </Link>
+
+          {/* Desktop Navigation */}
+
+          <nav className="hidden md:flex items-center gap-10">
             {navLinks.map((link) => (
               <NavLink
                 key={link.path}
                 to={link.path}
                 onClick={(e) => handleNavClick(e, link.path)}
                 className={({ isActive }) =>
-                  `relative text-sm uppercase tracking-[0.25em] transition-colors duration-300 ${
+                  `
+                  relative
+                  text-sm
+                  uppercase
+                  tracking-[0.22em]
+                  transition-colors
+                  duration-300
+
+                  ${
                     isActive
                       ? "text-primary"
                       : "text-white/80 hover:text-primary"
-                  }`
+                  }
+                `
                 }
               >
                 {({ isActive }) => (
@@ -121,7 +168,7 @@ const location = useLocation();
                         transition={{
                           type: "spring",
                           stiffness: 400,
-                          damping: 30,
+                          damping: 32,
                         }}
                       />
                     )}
@@ -131,126 +178,201 @@ const location = useLocation();
             ))}
           </nav>
 
-          <div className="md:hidden">
-  <button
-    onClick={() => setMenuOpen(!menuOpen)}
-    className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white backdrop-blur-xl"
-  >
-    <motion.span
-      animate={{
-        rotate: menuOpen ? 90 : 0,
-      }}
-      transition={{
-        duration: 0.25,
-      }}
-      className="text-2xl leading-none"
-    >
-      {menuOpen ? "✕" : "☰"}
-    </motion.span>
-  </button>
-</div>
+          {/* Mobile Button */}
 
-          {/* CTA */}
-          <motion.div
-  className="hidden md:block"
-  whileHover={{
-    scale: 1.04,
-    y: -2,
-  }}
-  whileTap={{
-    scale: 0.98,
-  }}
->
-  <Link
-    to="/contact"
-    onClick={(e) => handleNavClick(e, "/contact")}
-    className="rounded-xl border border-primary bg-primary/10 px-6 py-2 text-sm font-medium uppercase tracking-[0.2em] text-primary backdrop-blur-xl transition-all duration-300 hover:bg-primary hover:text-black hover:shadow-[0_0_30px_rgba(201,168,103,0.3)]"
-  >
-    Inquire Now
-  </Link>
-</motion.div>
-</div>
-
-{/* MOBILE MENU */}
-
-<AnimatePresence>
-  {menuOpen && (
-    <motion.div
-      initial={{ opacity: 0, y: -25 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -25 }}
-      transition={{ duration: 0.3 }}
-      className="
-        md:hidden
-        absolute
-        top-full
-        left-0
-        mt-4
-        w-full
-        overflow-hidden
-        rounded-[28px]
-        border
-        border-white/10
-        bg-black/80
-        backdrop-blur-3xl
-        shadow-[0_25px_80px_rgba(0,0,0,0.45)]
-      "
-    >
-      <nav className="flex flex-col py-6">
-
-        {navLinks.map((link) => (
-
-          <NavLink
-            key={link.path}
-            to={link.path}
-            onClick={() => setMenuOpen(false)}
-            className={({ isActive }) =>
-              `px-8 py-5 text-center text-sm uppercase tracking-[0.3em] transition ${
-                isActive
-                  ? "text-primary"
-                  : "text-white hover:text-primary"
-              }`
-            }
-          >
-            {link.name}
-          </NavLink>
-
-        ))}
-
-        <div className="px-6 pt-4">
-
-          <Link
-            to="/contact"
-            onClick={() => setMenuOpen(false)}
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
             className="
-              block
+              md:hidden
+              flex
+              h-11
+              w-11
+              items-center
+              justify-center
               rounded-xl
               border
-              border-primary
-              bg-primary/10
-              px-6
-              py-4
-              text-center
-              uppercase
-              tracking-[0.2em]
-              text-primary
-              transition
-              hover:bg-primary
-              hover:text-black
+              border-white/10
+              bg-white/5
+              backdrop-blur-xl
             "
           >
-            Inquire Now
-          </Link>
+            <motion.span
+              animate={{
+                rotate: menuOpen ? 90 : 0,
+              }}
+              transition={{
+                duration: 0.25,
+              }}
+              className="text-2xl text-white"
+            >
+              {menuOpen ? "✕" : "☰"}
+            </motion.span>
+          </button>
 
+          {/* CTA */}
+
+          <motion.div
+            className="hidden md:block"
+            whileHover={{
+              scale: 1.03,
+              y: -2,
+            }}
+            whileTap={{
+              scale: 0.98,
+            }}
+          >
+            <Link
+              to="/contact"
+              onClick={(e) => handleNavClick(e, "/contact")}
+              className="
+                rounded-xl
+                border
+                border-primary
+                bg-primary/10
+                px-6
+                py-2
+                text-sm
+                font-medium
+                uppercase
+                tracking-[0.18em]
+                text-primary
+                transition-all
+                duration-300
+                hover:bg-primary
+                hover:text-black
+                hover:shadow-[0_0_25px_rgba(201,168,103,0.3)]
+              "
+            >
+              Inquire Now
+            </Link>
+          </motion.div>
         </div>
 
-      </nav>
-    </motion.div>
-  )}
-</AnimatePresence>
+        {/* MOBILE MENU */}
 
-</div>
-</motion.header>
+                {/* MOBILE MENU */}
+
+                <AnimatePresence>
+          {menuOpen && (
+            <motion.div
+              initial={{
+                opacity: 0,
+                y: -18,
+              }}
+              animate={{
+                opacity: 1,
+                y: 0,
+              }}
+              exit={{
+                opacity: 0,
+                y: -18,
+              }}
+              transition={{
+                duration: 0.28,
+                ease: "easeOut",
+              }}
+              className="
+                absolute
+                left-0
+                right-0
+                top-[calc(100%+14px)]
+                md:hidden
+                overflow-hidden
+                rounded-[26px]
+                border
+                border-white/10
+                bg-black/75
+                backdrop-blur-[28px]
+                shadow-[0_30px_80px_rgba(0,0,0,0.45)]
+              "
+            >
+              {/* Reflection */}
+
+              <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[26px]">
+                <div className="absolute inset-x-5 top-0 h-px rounded-full bg-white/15" />
+
+                <div className="absolute inset-0 bg-gradient-to-b from-white/[0.08] via-transparent to-transparent" />
+              </div>
+
+              <nav className="relative flex flex-col py-4">
+
+                {navLinks.map((link, index) => (
+                  <motion.div
+                    key={link.path}
+                    initial={{
+                      opacity: 0,
+                      x: -18,
+                    }}
+                    animate={{
+                      opacity: 1,
+                      x: 0,
+                    }}
+                    transition={{
+                      delay: index * 0.05,
+                    }}
+                  >
+                    <NavLink
+                      to={link.path}
+                      onClick={(e) => handleNavClick(e, link.path)}
+                      className={({ isActive }) =>
+                        `
+                          flex
+                          justify-center
+                          px-8
+                          py-4
+                          text-sm
+                          uppercase
+                          tracking-[0.28em]
+                          transition-colors
+                          duration-300
+
+                          ${
+                            isActive
+                              ? "text-primary"
+                              : "text-white hover:text-primary"
+                          }
+                        `
+                      }
+                    >
+                      {link.name}
+                    </NavLink>
+                  </motion.div>
+                ))}
+
+                <div className="px-5 pt-3">
+                  <Link
+                    to="/contact"
+                    onClick={(e) => handleNavClick(e, "/contact")}
+                    className="
+                      flex
+                      h-12
+                      items-center
+                      justify-center
+                      rounded-xl
+                      border
+                      border-primary
+                      bg-primary/10
+                      text-sm
+                      font-medium
+                      uppercase
+                      tracking-[0.18em]
+                      text-primary
+                      transition-all
+                      duration-300
+                      hover:bg-primary
+                      hover:text-black
+                    "
+                  >
+                    Inquire Now
+                  </Link>
+                </div>
+              </nav>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+      </div>
+    </motion.header>
   );
 }
 
